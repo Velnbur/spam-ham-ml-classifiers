@@ -38,23 +38,26 @@ pip install -r requirements.txt
 Here's a snippet from the Jupyter notebook showing how to evaluate the classifiers:
 
 ```python
-from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
+import kagglehub
+import pandas as pd
+from pathlib import Path
+from spamclassifier.knn import KNNClassifier
+from sklearn.model_selection import train_test_split
 
-table = []
-classifiers = [OneRuleClassifier(), NaiveBiasClassifier(), DecisionTreeClassifier(), KNNClassifier()]
+path = kagglehub.dataset_download("bagavathypriya/spam-ham-dataset")
+path = Path(path) / "spamhamdata.csv"
 
-for classifier in classifiers:
-    classifier.fit(X_train, y_train)
-    y_pred = classifier.predict(X_test)
-    assert y_pred.shape == y_true.shape
+df = pd.read_csv(path, delimiter='\t', header=None)
 
-    scores = [score(y_true, y_pred) for score in [accuracy_score, f1_score, recall_score, precision_score]]
+y, X = df[0], df[1]
+X_ = X.to_numpy().astype('str')
+X_train, X_test, y_train, y_test = train_test_split(X_, y, test_size=0.33, random_state=42)
+y_true = np.where(y_test == "ham", 0.0, 1.0)
 
-    row = [str(type(classifier))] + scores
-    table.append(row)
+knn = KNNClassifier()
+knn.fit(X_train, y_train)
 
-from tabulate import tabulate
-tabulate(table, headers=["Method", "Accuracy", "F1", "Recall", "Precision"], tablefmt="html")
+y_pred = classifier.predict(X_test)
 ```
 
 ## Results
@@ -80,9 +83,9 @@ The evaluation results are displayed in a table format:
 
 This project provides a comprehensive comparison of different classifiers for the spam/ham problem. The Naive Bayes classifier performed exceptionally well, followed by the KNN, Decision Tree, and One Rule classifiers.
 
-The Decision Tree has the best potential, but its capabilities for this test were limited as the number of features during vectorization slowed training drastically.
+The Decision Tree has the best potential, but its capabilities for this test were limited manually as the number of features during vectorization slowed training drastically.
 
-The best perfomance, with least CPU time during training and execution had KNN and Naive Bias.
+The best perfomance, with least CPU time during training and execution, had KNN and Naive Bias.
 
 ## Contributing
 

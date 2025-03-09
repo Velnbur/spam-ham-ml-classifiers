@@ -1,0 +1,6 @@
+.venv/
+**/__pycache__
+.ipynb_checkpoints/
+.dmypy.json
+.envrc
+shell.nix

@@ -73,6 +73,10 @@ The evaluation results are displayed in a table format:
 | <class 'classifiers.decisiontree.DecisionTreeClassifier'> |     0.866232| 0        | 0        |     0        |
 | <class 'classifiers.knn.KNNClassifier'>                  |     0.951234| 0.925362 | 0.901234 |     0.949567|
 
+### Confusion matrixes
+
+![Confusion matrixes of each used method](assets/cms.png)
+
 ### Comparison with methods from `sklearn`
 
 ![Barplot with scores for each used method](assets/results.png)
